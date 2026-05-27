@@ -4,58 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Educación Digital | Distrito 19</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
-        body { font-family: sans-serif; background-color: #f8fafc; }
-        .hero { background: #1e1b4b; color: white; padding: 60px 0; text-align: center; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .navbar-custom { background-color: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
+        .btn-asesoramiento {
+            background-color: #0dcaf0 !important; color: #0f172a !important; font-weight: 700 !important;
+            border-radius: 50px !important; padding: 8px 20px !important; transition: all 0.3s ease !important;
+            box-shadow: 0 4px 12px rgba(13, 202, 240, 0.3);
+        }
+        .btn-asesoramiento:hover { transform: scale(1.05); background-color: #0baccc !important; }
+        .hero-premium {
+            background: radial-gradient(circle at top right, #4f46e5 0%, #1e1b4b 100%);
+            color: white; padding: 100px 0 80px 0; position: relative; overflow: hidden;
+        }
+        .card-custom {
+            border: none; border-radius: 16px; background: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s ease; overflow: hidden;
+        }
+        .card-custom:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card-custom img { height: 220px; object-fit: cover; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">EdDigital - Distrito 19</a>
-            <div id="loginContainer">
-                <div id="g_id_onload"
-                     data-client_id="885266347130-kcgvl03n08m2k9fnkfs0latlt6k6ufc0.apps.googleusercontent.com"
-                     data-callback="handleCredentialResponse">
-                </div>
-                <div class="g_id_signin" data-type="standard"></div>
+            <a class="navbar-brand fw-bold fs-4" href="#">
+                <i class="bi bi-cpu text-info me-2"></i>Ed<span class="text-info">Digital</span>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2 align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#proyectos">Materiales</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-asesoramiento ms-lg-2" href="#contacto"><i class="bi bi-chat-left-text me-2"></i>Pedir Asesoramiento</a></li>
+                    
+                    <li class="nav-item ms-lg-3" id="loginContainer">
+                        <div id="g_id_onload"
+                             data-client_id="885266347130-kcgvl03n08m2k9fnkfs0latlt6k6ufc0.apps.googleusercontent.com"
+                             data-callback="handleCredentialResponse"
+                             data-auto_prompt="false">
+                        </div>
+                        <div class="g_id_signin"
+                             data-type="standard"
+                             data-size="medium"
+                             data-theme="outline"
+                             data-text="signin_with"
+                             data-shape="rectangular"
+                             data-logo_alignment="left">
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1>Bienvenidos a la Plataforma</h1>
+    <header class="hero-premium text-center d-flex align-items-center" id="inicio">
+        <div class="container">
+            <span class="badge bg-info text-dark fw-bold mb-3 px-3 py-2 rounded-pill">Distrito 19</span>
+            <h1 class="display-3 fw-bold mb-3">La Innovación Nace en las Aulas</h1>
+            <p class="lead text-white-50 mx-auto mb-4" style="max-width: 600px;">Plataforma de seguimiento pedagógico y tecnológico.</p>
+        </div>
     </header>
 
+    <section class="container my-5" id="tablaSeccion">
+        <div class="card p-4 shadow-sm border-0 rounded-4">
+            <h4 class="fw-bold mb-3 text-dark d-flex align-items-center">
+                <i class="bi bi-bar-chart text-info me-2"></i> Registro de Accesos Históricos
+            </h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle m-0" id="tablaDocentes">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Docente (@bue)</th>
+                            <th>Correo Electrónico</th>
+                            <th>Fecha y Hora de Entrada</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCuerpo">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white-50 text-center py-3 border-top border-secondary">
+        <div class="container">
+            <small>&copy; 2026 Innovación Educativa. Distrito Escolar 19.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // --- CONFIGURACIÓN ---
+        // CONFIGURACIÓN DE EMAILJS (Reemplazá esto con tus llaves de EmailJS del Paso 1)
         (function() {
-            emailjs.init("6tlS8cKEYlITUKSaA"); 
+            emailjs.init("TU_PUBLIC_KEY_ACA"); 
         })();
 
         function handleCredentialResponse(response) {
-            const datosUsuario = jwt_decode(response.credential);
-            
-            // Envío de correo automático
-            emailjs.send("service_2okr2wr", "template_5x5uzni", {
-                nombre: datosUsuario.name,
-                email: datosUsuario.email,
-                fecha: new Date().toLocaleString('es-AR')
-            }).then(() => {
-                console.log("✅ ¡Mail enviado!");
-            }).catch((err) => {
-                console.error("❌ Error:", err);
-            });
-            
-            // Saludo en pantalla
-            document.getElementById('loginContainer').innerHTML = 
-                `<h5 class="text-white">Hola, ${datosUsuario.given_name}</h5>`;
+            try {
+                const datosUsuario = jwt_decode(response.credential);
+                
+                // 1. Mostrar saludo arriba
+                actualizarInterfazUsuario({
+                    nombre: datosUsuario.given_name,
+                    foto: datosUsuario.picture
+                });
+
+                // 2. AGREGAR AL DOCENTE A LA TABLA VISUAL EN LA PANTALLA
+                const tablaCuerpo = document.getElementById('tablaCuerpo');
+                const nuevaFila = document.createElement('tr');
+                const fecha = new Date().toLocaleString('es-AR');
+                
+                nuevaFila.innerHTML = `
+                    <td class="fw-bold">${datosUsuario.name}</td>
+                    <td class="text-muted">${datosUsuario.email}</td>
+                    <td>${fecha}</td>
+                `;
+                tablaCuerpo.appendChild(nuevaFila);
+
+                // 3. ENVIAR EL MAIL DE ALERTA AL INSTANTE
+                const datosMail = {
+                    nombre: datosUsuario.name,
+                    email: datosUsuario.email
+                };
+
+                emailjs.send("TU_SERVICE_ID_ACA", "TU_TEMPLATE_ID_ACA", datosMail)
+                    .then(() => {
+                        console.log("✅ ¡Mail enviado con éxito!");
+                    }, (error) => {
+                        console.error("❌ Falló el envío del mail:", error);
+                    });
+
+            } catch (error) {
+                console.error("Error general:", error);
+            }
+        }
+
+        function actualizarInterfazUsuario(usuario) {
+            document.getElementById('loginContainer').innerHTML = `
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle border-0" type="button" data-bs-toggle="dropdown">
+                        <img src="${usuario.foto}" class="rounded-circle me-2" style="width:24px;height:24px;">
+                        Hola, ${usuario.nombre}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                        <li><a class="dropdown-menu-item text-danger px-3 py-1 d-block small text-decoration-none" href="#" onclick="location.reload()">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            `;
         }
     </script>
 </body>
