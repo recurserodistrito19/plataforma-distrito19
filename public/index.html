@@ -54,7 +54,13 @@
                              data-callback="handleCredentialResponse"
                              data-auto_prompt="false">
                         </div>
-                        <div class="g_id_signin" data-type="standard" data-size="medium" data-theme="outline" data-text="signin_with" data-shape="rectangular" data-logo_alignment="left">
+                        <div class="g_id_signin"
+                             data-type="standard"
+                             data-size="medium"
+                             data-theme="outline"
+                             data-text="signin_with"
+                             data-shape="rectangular"
+                             data-logo_alignment="left">
                         </div>
                     </li>
                 </ul>
@@ -70,30 +76,94 @@
         </div>
     </header>
 
+    <main class="container my-5 py-4" id="proyectos">
+        <div class="mb-4">
+            <h2 class="fw-bold m-0">Ejes de Trabajo</h2>
+            <p class="text-muted m-0">Propuestas pedagógicas implementadas en el distrito</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-ciudadania mb-2">Ciudadanía Digital</span>
+                        <h5 class="fw-bold card-title">Huella Digital y Privacidad</h5>
+                        <p class="card-text text-muted">Secuencias enfocadas en el pensamiento crítico sobre lo que compartimos en internet.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-programacion mb-2">Programación</span>
+                        <h5 class="fw-bold card-title">Pensamiento Computacional</h5>
+                        <p class="card-text text-muted">Proyectos que introducen la lógica de programación mediante bloques interactivos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-ia mb-2">Inteligencia Artificial</span>
+                        <h5 class="fw-bold card-title">Introducción a la IA y Algoritmos</h5>
+                        <p class="card-text text-muted">Análisis de sesgos algorítmicos y uso ético de herramientas generativas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="bg-dark text-white py-5" id="contacto">
+        <div class="container" style="max-width: 600px;">
+            <div class="text-center mb-4">
+                <h3 class="fw-bold">¿Cómo podemos asesorarte?</h3>
+                <p class="text-white-50">Dejanos tu consulta para que podamos acompañarte.</p>
+            </div>
+            <form class="row g-3">
+                <div class="col-10 mx-auto">
+                    <input type="text" class="form-control mb-2" id="formNombre" placeholder="Tu Nombre y Apellido">
+                    <input type="text" class="form-control mb-2" placeholder="Escuela (Ej: Escuela N° 1 D.E. 19)">
+                    <textarea class="form-control mb-3" rows="3" placeholder="Escribí acá tu consulta..."></textarea>
+                    <button type="button" class="btn btn-info w-100 fw-bold">Enviar Consulta</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white-50 text-center py-3 border-top border-secondary">
+        <div class="container">
+            <small>&copy; 2026 Innovación Educativa. Distrito Escolar 19.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // --- CONFIGURACIÓN DE EMAILJS ---
+        // --- CONFIGURACIÓN EMAILJS ---
         (function() {
-            emailjs.init("glR98K4s2sjHvuMRsdAhb"); 
+            emailjs.init("glR98K4s2sjHvuMRsdAhb");
         })();
 
         function handleCredentialResponse(response) {
             try {
                 const datosUsuario = jwt_decode(response.credential);
                 
-                // 1. Envío de mail directo (sin servidor de Render)
+                // Envío de mail con tus datos
                 emailjs.send("service_2okr2wr", "template_5x5uzni", {
                     nombre: datosUsuario.name,
                     email: datosUsuario.email,
                     fecha: new Date().toLocaleString('es-AR')
                 }).then(() => console.log("Mail enviado"));
 
-                // 2. Saludo visual
+                // Actualización visual
                 actualizarInterfazUsuario({
                     nombre: datosUsuario.given_name,
                     foto: datosUsuario.picture
                 });
             } catch (error) {
-                console.error("Error al procesar el login:", error);
+                console.error("Error:", error);
             }
         }
 
