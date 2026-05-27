@@ -74,28 +74,6 @@
         </div>
     </header>
 
-    <div class="container my-5 d-none" id="panelEstadisticas">
-        <div class="bg-white p-4 rounded-3 shadow-sm border border-info-subtle">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-bar-chart-line text-info me-2"></i>Registro de Accesos Históricos</h4>
-                
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle m-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Docente (@bue)</th>
-                            <th>Correo Electrónico</th>
-                            <th>Fecha y Hora de Entrada</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaAccesos">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
     <main class="container my-5 py-4" id="proyectos">
         <div class="mb-4">
             <h2 class="fw-bold m-0">Ejes de Trabajo</h2>
@@ -174,12 +152,11 @@
             .then(data => {
                 if (data.success) {
                     actualizarInterfazUsuario(data.usuario);
-                    cargarTablaEstadisticas();
                 } else {
                     alert(data.message || "Acceso denegado.");
                 }
             })
-            .catch(err => alert("Error: No se pudo conectar con el servidor local. Asegurate de tener la CMD abierta."));
+            .catch(err => alert("Error: No se pudo procesar la autenticación con el servidor."));
         }
 
         function actualizarInterfazUsuario(usuario) {
@@ -194,30 +171,6 @@
                     </ul>
                 </div>
             `;
-            if(document.getElementById('formNombre')) {
-                document.getElementById('formNombre').value = usuario.nombreCompleto;
-            }
-        }
-
-        function cargarTablaEstadisticas() {
-            fetch(`${BACKEND_URL}/api/accesos`)
-            .then(res => res.json())
-            .then(accesos => {
-                const tbody = document.getElementById('tablaAccesos');
-                tbody.innerHTML = ""; 
-
-                accesos.forEach(registro => {
-                    const fechaFormateada = new Date(registro.fecha_hora).toLocaleString('es-AR');
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><span class="fw-bold">${registro.nombre}</span></td>
-                            <td class="text-muted">${registro.email}</td>
-                            <td>${fechaFormateada}</td>
-                        </tr>
-                    `;
-                });
-                document.getElementById('panelEstadisticas').classList.remove('d-none');
-            });
         }
     </script>
 </body>
