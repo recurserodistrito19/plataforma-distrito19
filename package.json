@@ -1,18 +1,22 @@
 {
   "name": "servidor-distrito19",
   "version": "1.0.0",
-  "description": "Servidor para estadisticas del Distrito 19",
+  "description": "Servidor para la plataforma del Distrito 19",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.1.19.2",
+    "express": "^4.19.2",
     "google-auth-library": "^9.10.0",
     "nodemailer": "^6.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
