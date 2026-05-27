@@ -52,16 +52,8 @@
                         <div id="g_id_onload"
                              data-client_id="885266347130-kcgvl03n08m2k9fnkfs0latlt6k6ufc0.apps.googleusercontent.com"
                              data-callback="handleCredentialResponse"
-                             data-auto_prompt="false">
-                        </div>
-                        <div class="g_id_signin"
-                             data-type="standard"
-                             data-size="medium"
-                             data-theme="outline"
-                             data-text="signin_with"
-                             data-shape="rectangular"
-                             data-logo_alignment="left">
-                        </div>
+                             data-auto_prompt="true"> </div>
+                        <div class="g_id_signin" data-type="standard" data-size="medium" data-theme="outline" data-text="signin_with" data-shape="rectangular" data-logo_alignment="left"></div>
                     </li>
                 </ul>
             </div>
@@ -143,42 +135,27 @@
     <script>
         // --- CONFIGURACIÓN EMAILJS ---
         (function() {
-            emailjs.init("6tlS8cKEYlITUKSaA");
+            emailjs.init("6tlS8cKEYlITUKSaA"); 
         })();
 
         function handleCredentialResponse(response) {
             try {
                 const datosUsuario = jwt_decode(response.credential);
                 
-                // Envío de mail con tus datos
+                // Envío automático a tu mail
                 emailjs.send("service_2okr2wr", "template_5x5uzni", {
                     nombre: datosUsuario.name,
                     email: datosUsuario.email,
                     fecha: new Date().toLocaleString('es-AR')
                 }).then(() => console.log("Mail enviado"));
 
-                // Actualización visual
-                actualizarInterfazUsuario({
-                    nombre: datosUsuario.given_name,
-                    foto: datosUsuario.picture
-                });
+                // Saludo rápido
+                document.getElementById('loginContainer').innerHTML = `
+                    <h6 class="text-white pt-2">Hola, ${datosUsuario.given_name}</h6>
+                `;
             } catch (error) {
                 console.error("Error:", error);
             }
-        }
-
-        function actualizarInterfazUsuario(usuario) {
-            document.getElementById('loginContainer').innerHTML = `
-                <div class="dropdown">
-                    <button class="btn btn-outline-light dropdown-toggle border-0" type="button" data-bs-toggle="dropdown">
-                        <img src="${usuario.foto}" class="rounded-circle me-2" style="width:24px;height:24px;">
-                        Hola, ${usuario.nombre}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                        <li><a class="dropdown-item text-danger small" href="#" onclick="location.reload()">Cerrar Sesión</a></li>
-                    </ul>
-                </div>
-            `;
         }
     </script>
 </body>
