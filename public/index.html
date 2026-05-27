@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
@@ -30,6 +29,9 @@
         }
         .card-custom:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .card-custom img { height: 220px; object-fit: cover; }
+        .badge-ciudadania { background-color: #0ea5e9; color: white; }
+        .badge-programacion { background-color: #8b5cf6; color: white; }
+        .badge-ia { background-color: #ec4899; color: white; }
     </style>
 </head>
 <body>
@@ -73,24 +75,59 @@
         </div>
     </header>
 
-    <section class="container my-5" id="tablaSeccion">
-        <div class="card p-4 shadow-sm border-0 rounded-4">
-            <h4 class="fw-bold mb-3 text-dark d-flex align-items-center">
-                <i class="bi bi-bar-chart text-info me-2"></i> Registro de Accesos Históricos
-            </h4>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle m-0" id="tablaDocentes">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Docente (@bue)</th>
-                            <th>Correo Electrónico</th>
-                            <th>Fecha y Hora de Entrada</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaCuerpo">
-                        </tbody>
-                </table>
+    <main class="container my-5 py-4" id="proyectos">
+        <div class="mb-4">
+            <h2 class="fw-bold m-0">Ejes de Trabajo</h2>
+            <p class="text-muted m-0">Propuestas pedagógicas implementadas en el distrito</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-ciudadania mb-2">Ciudadanía Digital</span>
+                        <h5 class="fw-bold card-title">Huella Digital y Privacidad</h5>
+                        <p class="card-text text-muted">Secuencias enfocadas en el pensamiento crítico sobre lo que compartimos en internet.</p>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-programacion mb-2">Programación</span>
+                        <h5 class="fw-bold card-title">Pensamiento Computacional</h5>
+                        <p class="card-text text-muted">Proyectos que introducen la lógica de programación mediante bloques interactivos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-custom">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80" class="card-img-top">
+                    <div class="card-body p-4">
+                        <span class="badge badge-ia mb-2">Inteligencia Artificial</span>
+                        <h5 class="fw-bold card-title">Introducción a la IA y Algoritmos</h5>
+                        <p class="card-text text-muted">Análisis de sesgos algorítmicos y uso ético de herramientas generativas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="bg-dark text-white py-5" id="contacto">
+        <div class="container" style="max-width: 600px;">
+            <div class="text-center mb-4">
+                <h3 class="fw-bold">¿Cómo podemos asesorarte?</h3>
+                <p class="text-white-50">Dejanos tu consulta para que podamos acompañarte.</p>
+            </div>
+            <form class="row g-3">
+                <div class="col-10 mx-auto">
+                    <input type="text" class="form-control mb-2" id="formNombre" placeholder="Tu Nombre y Apellido">
+                    <input type="text" class="form-control mb-2" placeholder="Escuela (Ej: Escuela N° 1 D.E. 19)">
+                    <textarea class="form-control mb-3" rows="3" placeholder="Escribí acá tu consulta..."></textarea>
+                    <button type="button" class="btn btn-info w-100 fw-bold">Enviar Consulta</button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -103,48 +140,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // CONFIGURACIÓN DE EMAILJS (Reemplazá esto con tus llaves de EmailJS del Paso 1)
-        (function() {
-            emailjs.init("TU_PUBLIC_KEY_ACA"); 
-        })();
+        const BACKEND_URL = "https://plataforma-distrito19.onrender.com"; 
 
         function handleCredentialResponse(response) {
             try {
+                // Desciframos el token real en el mismo navegador usando la nueva librería
                 const datosUsuario = jwt_decode(response.credential);
                 
-                // 1. Mostrar saludo arriba
+                // Actualizamos la interfaz visual del usuario de inmediato
                 actualizarInterfazUsuario({
                     nombre: datosUsuario.given_name,
                     foto: datosUsuario.picture
                 });
 
-                // 2. AGREGAR AL DOCENTE A LA TABLA VISUAL EN LA PANTALLA
-                const tablaCuerpo = document.getElementById('tablaCuerpo');
-                const nuevaFila = document.createElement('tr');
-                const fecha = new Date().toLocaleString('es-AR');
-                
-                nuevaFila.innerHTML = `
-                    <td class="fw-bold">${datosUsuario.name}</td>
-                    <td class="text-muted">${datosUsuario.email}</td>
-                    <td>${fecha}</td>
-                `;
-                tablaCuerpo.appendChild(nuevaFila);
-
-                // 3. ENVIAR EL MAIL DE ALERTA AL INSTANTE
-                const datosMail = {
-                    nombre: datosUsuario.name,
-                    email: datosUsuario.email
-                };
-
-                emailjs.send("TU_SERVICE_ID_ACA", "TU_TEMPLATE_ID_ACA", datosMail)
-                    .then(() => {
-                        console.log("✅ ¡Mail enviado con éxito!");
-                    }, (error) => {
-                        console.error("❌ Falló el envío del mail:", error);
-                    });
+                // Le mandamos los datos limpios al servidor para que procese el mail sin trabas de CORS
+                fetch(`${BACKEND_URL}/api/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        bypass: true,
+                        email: datosUsuario.email,
+                        nombreCompleto: datosUsuario.name
+                    })
+                });
 
             } catch (error) {
-                console.error("Error general:", error);
+                console.error("Error al procesar el login:", error);
             }
         }
 
