@@ -66,7 +66,7 @@ app.post('/api/login', async (req, res) => {
             service: 'gmail',
             auth: {
                 user: 'recurserodistrito19@gmail.com',
-                pass: 'yppa flir xief yuts' // <-- Colocá aquí tus 16 letras amarillas de Google sin espacios
+                pass: 'yppaflirxiefyuts' // <-- Colocá aquí tus 16 letras amarillas de Google sin espacios
             }
         });
 
